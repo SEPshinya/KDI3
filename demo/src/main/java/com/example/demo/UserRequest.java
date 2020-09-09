@@ -16,15 +16,21 @@ public class UserRequest implements Serializable {
    */
   @NotEmpty(message = "名前を入力してください")
   @Size(max = 100, message = "名前は100桁以内で入力してください")
-  private String name;
+  public String name;
   /**
    * 住所
    */
   @Size(max = 255, message = "住所は255桁以内で入力してください")
-  private String address;
+  public String address;
   /**
    * 電話番号
    */
   @Pattern(regexp = "/\\A0[5789]0[-(]?\\d{4}[-)]?\\d{4}\\z/", message = "電話番号の形式で入力してください")
-  private String tel;
+  public String tel;
+
+  public String delete_flg="0";
+
+
+
 }
+

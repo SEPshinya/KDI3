@@ -12,7 +12,7 @@
     </tr>
   </table>
     <h1>住所録：新規登録</h1>
-    <form th:action="@{/create}" th:object="${userRequest}" th:method="post">
+    <form action="#" th:action="@{/addcheck}" th:object="${userRequest}" method="post">
     <table>
       <tr>
         <th class="cell_title">名前</th>
@@ -30,8 +30,8 @@
         <td><input type="text" th:field="*{tel}"></td>
       </tr>
     </table>
-    <div class="btn_area_center"><input type="submit" value="登録" class="btn"></div>
-   <input type="button" onclick="location.href='/list'"value="戻る">
+    <div class="btn_area_center"><input type="submit"  value="確認" class="btn"></div>
+   <input type="button" onclick="location.href='/list'" value="戻る">
   </form>
   </body>
 </html>

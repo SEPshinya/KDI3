@@ -33,4 +33,10 @@ public class User implements Serializable {
   //電話
   @Column(name="tel")
   private String tel;
+
+  @Column(name="delete_flg")
+  private String delete_flg="0";
+
 }
+
+
