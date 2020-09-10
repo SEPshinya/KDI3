@@ -5,40 +5,52 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-/**
- * ユーザー情報 Service
- */
-@SuppressWarnings("unused")
+
+//ユーザー情報 Service
 @Service
 @Transactional(rollbackOn = Exception.class)
 public class UserService {
-  /**
-   * ユーザー情報 Repository
-   */
+
   @Autowired
   private UserRepository userRepository;
-  /**
-   * ユーザー情報 全検索
-   * @return 検索結果
-   */
+//ユーザー情報 全検索
   public List<User> searchAll() {
+//検索結果を返す
     return userRepository.findAll();
   }
-  /**
-   * ユーザー情報 新規登録
-   * @param user ユーザー情報
-   */
+
+
+//新規登録
   public void create(UserRequest UserRequest) {
     User user = new User();
     user.setName(UserRequest.getName());
     user.setAddress(UserRequest.getAddress());
     user.setTel(UserRequest.getTel());
+    user.setDelete_flg("0");
     userRepository.save(user);
   }
-  /**
-   * ユーザー情報 主キー検索
-   * @return 検索結果
-   */
+
+//編集登録
+  public void update(UserUpdateRequest userUpdateRequest) {
+    User user = findById(userUpdateRequest.getId());
+    user.setAddress(userUpdateRequest.getAddress());
+    user.setName(userUpdateRequest.getName());
+    user.setTel(userUpdateRequest.getTel());
+    user.setDelete_flg("0");
+    userRepository.save(user);
+  }
+
+//削除
+  public void deleteflg(UserUpdateRequest userUpdateRequest) {
+    User user = findById(userUpdateRequest.getId());
+    user.setAddress(userUpdateRequest.getAddress());
+    user.setName(userUpdateRequest.getName());
+    user.setTel(userUpdateRequest.getTel());
+    user.setDelete_flg("1");
+    userRepository.save(user);
+  }
+
+//ID検索
   public User findById(Long id) {
     return userRepository.findById(id).get();
   }

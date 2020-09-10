@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>住所録：編集</title>
-    <link href="/css/add.css" rel="stylesheet"></link>
+
     <meta charset="utf-8" />
   </head>
   <body>
   <h1>住所録：編集</h1>
-  <form action="#" th:action="@{/{id}/editcheck}" th:object="${userRequest}" method="post">
+  <form action="#" th:action="@{/editcheck}" th:object="${userUpdateRequest}" method="post">
   <table>
     <tr>
       <th class="cell_title">名前</th>

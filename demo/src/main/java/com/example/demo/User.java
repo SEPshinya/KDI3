@@ -35,7 +35,7 @@ public class User implements Serializable {
   private String tel;
 
   @Column(name="delete_flg")
-  private String delete_flg="0";
+  private String delete_flg;
 
 }
 

@@ -11,69 +11,78 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-/**
- * ユーザー情報 Controller
- */
-@SuppressWarnings("unused")
+
 @Controller
 public class UserController {
-  /**
-   * ユーザー情報 Service
-   */
+//ユーザー情報 Service
+
   @Autowired
   UserService userService;
-  /**
-   * ユーザー情報一覧画面を表示
-   * @param model Model
-   * @return ユーザー情報一覧画面
-   */
+
+//一覧画面を表示
   @GetMapping(value = "/list")
   public String displayList(Model model) {
     List<User> userlist = userService.searchAll();
     model.addAttribute("userlist", userlist);
     return "/list";
   }
-  /**
-   * ユーザー新規登録画面を表示
-   * @param model Model
-   * @return ユーザー情報一覧画面
-   */
+
+
+//新規登録画面を表示------------------------------------------------------------------------------------------------
   @RequestMapping(value = "/add",method = RequestMethod.GET)
   public String Add(Model model) {
     model.addAttribute("userRequest", new UserRequest());
     return "/add";
   }
+
+//新規登録確認画面を表示
   @RequestMapping(value = "/addcheck",method = RequestMethod.POST)
   public String addcheck(@ModelAttribute("UserRequest")UserRequest form) {
     return "/addcheck";
   }
-  /**
-   * ユーザー新規登録
-
-   * @param model Model
-   * @param UserRequest
-   * @return ユーザー情報一覧画面
-   */
   @RequestMapping(value = "create", method = RequestMethod.POST)
   public String create(@Validated @ModelAttribute UserRequest userRequest, BindingResult result, Model model, UserRequest UserRequest) {
     // ユーザー情報の登録
     userService.create(userRequest);
     return "redirect:/list";
   }
-  /**
-   * ユーザー情報詳細画面を表示
-   * @param id 表示するユーザーID
-   * @param model Model
-   * @return ユーザー情報詳細画面
-   */
-  @GetMapping("{id}")
+
+
+//編集画面を表示-----------------------------------------------------------------------------------------------------
+  @RequestMapping(value ="{id}",method = RequestMethod.GET)
+  //@GetMapping("{id}")
   public String displayView(@PathVariable Long id, Model model) {
     User user = userService.findById(id);
-    model.addAttribute("userRequest", user);
-    return "/edit";
+    model.addAttribute("userUpdateRequest", user);
+    return "edit";
   }
-  @RequestMapping(value = "/{id}/editcheck",method = RequestMethod.POST)
-  public String editcheck(@ModelAttribute("UserRequest")UserRequest form) {
-    return "/{id}/editcheck";
+
+//編集確認画面
+  @RequestMapping(value = "/editcheck",method = RequestMethod.POST)
+  public String editcheck(@ModelAttribute("UserUpdateRequest")UserUpdateRequest form) {
+    return "/editcheck";
   }
+  @RequestMapping(value = "update", method = RequestMethod.POST)
+  public String update(@Validated @ModelAttribute UserUpdateRequest userUpdateRequest, BindingResult result, Model model, UserRequest UserRequest) {
+    // ユーザー情報の登録
+    userService.update(userUpdateRequest);
+    return "redirect:/list";
+  }
+
+  //排除---------------------------------------------------------------------------------------------------------------
+  @RequestMapping(value ="/delete/{id}",method = RequestMethod.GET)
+  //@GetMapping("{id}")
+  public String delete(@PathVariable Long id, Model model ) {
+    User user = userService.findById(id);
+    model.addAttribute("UserUpdateRequest", user);
+    return "/delete";
+  }
+  @RequestMapping(value = "deleteflg", method = RequestMethod.POST)
+  public String delete(@ModelAttribute UserUpdateRequest userUpdateRequest, BindingResult result, Model model, UserRequest UserRequest) {
+    // ユーザー情報の削除（delete_flg1）
+    userService.deleteflg(userUpdateRequest);
+    return "redirect:/list";
+  }
+
 }
+//--------------------------------------------------------------------------------------------------------------------
