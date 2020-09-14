@@ -1,9 +1,9 @@
 package com.example.demo;
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 //ユーザー情報 Service
@@ -14,9 +14,9 @@ public class UserService {
   @Autowired
   private UserRepository userRepository;
 //ユーザー情報 全検索
-  public List<User> searchAll() {
+  public Page<User> getUser(Pageable pageable){
 //検索結果を返す
-    return userRepository.findAll();
+    return userRepository.findAll(pageable);
   }
 
 

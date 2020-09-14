@@ -1,7 +1,8 @@
 package com.example.demo;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,14 +20,14 @@ public class UserController {
   @Autowired
   UserService userService;
 
-//一覧画面を表示
+//一覧画面を表示----------------------------------------------------------------------------------------------------
   @GetMapping(value = "/list")
-  public String displayList(Model model) {
-    List<User> userlist = userService.searchAll();
-    model.addAttribute("userlist", userlist);
+  public String List(@PageableDefault(page=0,size=10)Pageable pageable,Model model) {
+	Page<User> userPage=userService.getUser(pageable);
+    model.addAttribute("page",userPage);
+    model.addAttribute("userlist",userPage.getContent());
     return "/list";
   }
-
 
 //新規登録画面を表示------------------------------------------------------------------------------------------------
   @RequestMapping(value = "/add",method = RequestMethod.GET)
@@ -49,9 +50,9 @@ public class UserController {
 
 
 //編集画面を表示-----------------------------------------------------------------------------------------------------
-  @RequestMapping(value ="{id}",method = RequestMethod.GET)
+  @RequestMapping(value ="/edit/{id}",method = RequestMethod.GET)
   //@GetMapping("{id}")
-  public String displayView(@PathVariable Long id, Model model) {
+  public String edit(@PathVariable Long id, Model model) {
     User user = userService.findById(id);
     model.addAttribute("userUpdateRequest", user);
     return "edit";
