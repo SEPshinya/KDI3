@@ -13,12 +13,14 @@ public class UserService {
 
   @Autowired
   private UserRepository userRepository;
-//ユーザー情報 全検索
+
+//住所一覧 全検索
   public Page<User> getUser(Pageable pageable){
-//検索結果を返す
     return userRepository.findAll(pageable);
   }
-
+  public Page<User> findUsers(String address){
+	    return userRepository.findUsers(address);
+	  }
 
 //新規登録
   public void create(UserRequest UserRequest) {
@@ -51,7 +53,7 @@ public class UserService {
   }
 
 //ID検索
-  public User findById(Long id) {
+  public User findById(Long id){
     return userRepository.findById(id).get();
   }
 }

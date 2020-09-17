@@ -34,9 +34,9 @@ public class User implements Serializable {
   @Column(name="tel")
   private String tel;
 
+  //削除フラグ
   @Column(name="delete_flg")
   private String delete_flg;
-
 }
 
 

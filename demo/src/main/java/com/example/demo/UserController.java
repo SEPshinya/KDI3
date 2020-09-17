@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,16 @@ public class UserController {
     return "/list";
   }
 
+//検索機能----------------------------------------------------------------------------------------------------------
+  @RequestMapping(value ="/list/serch",method = RequestMethod.GET)
+  //@GetMapping("{id}")
+  public String findUsers(@PathVariable String address, Model model) {
+    Page<User> userPage= userService.findUsers(address);
+    model.addAttribute("page",userPage);
+    model.addAttribute("userlist",userPage.getContent());
+    return "/list/serch";
+  }
+
 //新規登録画面を表示------------------------------------------------------------------------------------------------
   @RequestMapping(value = "/add",method = RequestMethod.GET)
   public String Add(Model model) {
@@ -42,7 +53,7 @@ public class UserController {
     return "/addcheck";
   }
   @RequestMapping(value = "create", method = RequestMethod.POST)
-  public String create(@Validated @ModelAttribute UserRequest userRequest, BindingResult result, Model model, UserRequest UserRequest) {
+  public String create(@Validated @ModelAttribute UserRequest userRequest, Model model) {
     // ユーザー情報の登録
     userService.create(userRequest);
     return "redirect:/list";

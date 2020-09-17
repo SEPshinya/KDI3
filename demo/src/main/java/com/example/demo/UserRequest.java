@@ -19,10 +19,11 @@ public class UserRequest implements Serializable {
   public String address;
 
 //電話
-
   public String tel;
 
 //排除フラグ
   public String delete_flg;
+
+
 }
 
