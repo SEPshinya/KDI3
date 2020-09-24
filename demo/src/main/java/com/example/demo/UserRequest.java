@@ -23,7 +23,5 @@ public class UserRequest implements Serializable {
 
 //排除フラグ
   public String delete_flg;
-
-
 }
 
